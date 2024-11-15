@@ -4,18 +4,39 @@
 
 using namespace std;
 
+void viewmatrix(int& size, int** matrix, string num){
+    cout << "\t" << num << " матрица" << endl;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            cout << matrix[i][j] << " ";
+        }
+    }
+    cout << endl;
+}
+
+int** editmatrix(int& size, int** matrix, string num) {
+    cout << "Введите страку и столбец элемента" << endl;
+    int row, col; cin >> row >> col;
+    if (row >= size || col >= size || row < 0 || col < 0) {
+        cout << "erorr" << endl;
+    }
+    else {
+        cout << "Введите новый элемент: ";
+        cin >> matrix[row][col];
+    }
+}
 
 int** matrixfill(int& size, string num) {
-    char textmatrix[1000];
+    short textsize = 0;
+    char* textmatrix = new char[textsize];
     ifstream nums("matrix.txt");
     if (!nums.is_open()) {
         cout << "error";
         return nullptr;
     }
 
-    int count = 0;
-    while (count < 1000 && nums >> textmatrix[count]) {
-        count++;
+    while (textsize < 1000 && nums >> textmatrix[textsize]) {
+        textsize++;
     }
 
     cout << "Введите размерность " << num << "матрицы" << endl;
@@ -26,7 +47,7 @@ int** matrixfill(int& size, string num) {
         matrix[i] = new int[size];
     }
 
-    for (int i = 0; i < size * size && i < count; i++) {
+    for (int i = 0; i < size * size && i < textsize; i++) {
         matrix[i / size][i % size] = stoi(&textmatrix[i]);
     }
 
@@ -80,19 +101,32 @@ int main() {
         switch (choice) {
         case 1:
             system("cls");
-            matrixfirst = matrixcons(size1, "первой");
-            matrixsecond = matrixcons(size2, "второй");
-            matrixthrid = matrixcons(size3, "третьей");
+            matrixfirst = matrixcons(size1, "первой"); system("cls");
+            matrixsecond = matrixcons(size2, "второй"); system("cls");
+            matrixthrid = matrixcons(size3, "третьей"); system("cls");
             break;
         case 2: 
-            matrixfirst = matrixfill(size1,"первой");
-            matrixsecond = matrixfill(size1, "второй");
-            matrixthrid = matrixfill(size3, "третьей");
-            
-            
+            matrixfirst = matrixfill(size1,"первой"); system("cls");
+            matrixsecond = matrixfill(size1, "второй"); system("cls");
+            matrixthrid = matrixfill(size3, "третьей"); system("cls");
             break;
-            //case 3: editmatrix(); break;
-            //case 4: viewmatrix(); break;
+        case 3:
+            cout << "Какую матрицу Вы хотите отредактировать?" << endl;\
+            short count = 0; cin >> count;
+            switch (count) {
+                case 1: matrixfirst = matrixfill(size1, matrixfirst, "Первая"); system("cls"); break;
+                case 2: matrixsecond = matrixfill(size2, matrixsecond, "Вторая"); system("cls"); break;
+                case 3:  matrixthrid = matrixfill(size3, matrixthrid, "Третья"); system("cls"); break;
+                default: cout << "error"; break;
+            }
+            break;
+        case 4:
+            viewmatrix(size1, matrixfirst, "Первая");
+            viewmatrix(size2, matrixsecond, "Вторая");
+            viewmatrix(size3, matrixthrid, "Третья");
+            system("pause");
+            system("cls");
+            break;
         case 5:
             clear_memory(matrixfirst, size1);
             clear_memory(matrixsecond, size2);
