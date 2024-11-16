@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void viewmatrix(int& size, int** matrix, string num){
+void viewmatrix(int size, int** matrix, string num){
     cout << "\t" << num << " матрица" << endl;
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
@@ -14,7 +14,7 @@ void viewmatrix(int& size, int** matrix, string num){
     cout << endl;
 }
 
-int** editmatrix(int& size, int** matrix, string num) {
+int editmatrix(int size, int** matrix, string num) {
     cout << "Введите страку и столбец элемента" << endl;
     int row, col; cin >> row >> col;
     if (row >= size || col >= size || row < 0 || col < 0) {
@@ -85,6 +85,7 @@ void clear_memory(int** matrix, int size) {
 
 int main() {
     setlocale(LC_ALL, "Russian");
+    system("chcp 65001");
     int** matrixfirst = nullptr;
     int** matrixsecond = nullptr;
     int** matrixthrid = nullptr;
@@ -114,9 +115,9 @@ int main() {
             cout << "Какую матрицу Вы хотите отредактировать?" << endl;\
             short count = 0; cin >> count;
             switch (count) {
-                case 1: matrixfirst = matrixfill(size1, matrixfirst, "Первая"); system("cls"); break;
-                case 2: matrixsecond = matrixfill(size2, matrixsecond, "Вторая"); system("cls"); break;
-                case 3:  matrixthrid = matrixfill(size3, matrixthrid, "Третья"); system("cls"); break;
+                case 1: editmatrix(size1, matrixfirst, "Первая"); system("cls"); break;
+                case 2: editmatrix(size2, matrixsecond, "Вторая"); system("cls"); break;
+                case 3: editmatrix(size3, matrixthrid, "Третья"); system("cls"); break;
                 default: cout << "error"; break;
             }
             break;
