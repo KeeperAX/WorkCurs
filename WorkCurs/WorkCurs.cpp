@@ -11,7 +11,7 @@ void viewmatrix(int size, int** matrix, string num) {
         for (int j = 0; j < size; j++) {
             cout << matrix[i][j] << " ";
         }
-        cout << endl; // Добавлено для корректного отображения
+        cout << endl; 
     }
 }
 
@@ -19,9 +19,16 @@ void editmatrix(int size, int** matrix, string num) {
     cout << "Введите строку и столбец элемента" << endl;
     int row, col;
     cin >> row >> col;
-    if (row >= size || col >= size || row < 0 || col < 0) {
-        cout << "Ошибка: неверные индексы" << endl;
-        return; // Выход из функции
+    row--; col--;
+    while (true)
+    {
+        if (row >= size || col >= size || row < 0 || col < 0) {
+            cout << "Ошибка: неверные индексы." << endl;
+        }
+        else
+        {
+            break;
+        }
     }
     cout << "Введите новый элемент: ";
     cin >> matrix[row][col];
@@ -127,32 +134,34 @@ int main() {
             clear_memory(matrixfirst, size1);
             clear_memory(matrixsecond, size2);
             clear_memory(matrixthird, size3);
-            matrixfirst = matrixcons(size1, "первой"); system("cls");
-            matrixsecond = matrixcons(size2, "второй"); system("cls");
-            matrixthird = matrixcons(size3, "третьей"); system("cls");
+            matrixfirst = matrixcons(size1, "A"); system("cls");
+            matrixsecond = matrixcons(size2, "B"); system("cls");
+            matrixthird = matrixcons(size3, "C"); system("cls");
             break;
         case 2:
+            system("cls");
+            point = 0;
             clear_memory(matrixfirst, size1);
             clear_memory(matrixsecond, size2);
             clear_memory(matrixthird, size3);
-            matrixfirst = matrixfill(size1, "первой"); system("cls");
-            matrixsecond = matrixfill(size2, "второй"); system("cls");
-            matrixthird = matrixfill(size3, "третьей"); system("cls");
+            matrixfirst = matrixfill(size1, "A"); system("cls");
+            matrixsecond = matrixfill(size2, "B"); system("cls");
+            matrixthird = matrixfill(size3, "C"); system("cls");
             break;
         case 3:
             cout << "Какую матрицу Вы хотите отредактировать?" << endl;
             short count; cin >> count;
             switch (count) {
-                case 1: editmatrix(size1, matrixfirst, "Первая"); system("cls"); break;
-                case 2: editmatrix(size2, matrixsecond, "Вторая"); system("cls"); break;
-                case 3: editmatrix(size3, matrixthird, "Третья"); system("cls"); break;
+                case 1: editmatrix(size1, matrixfirst, "A"); system("cls"); break;
+                case 2: editmatrix(size2, matrixsecond, "B"); system("cls"); break;
+                case 3: editmatrix(size3, matrixthird, "C"); system("cls"); break;
                 default: cout << "Ошибка: неверный выбор" << endl;
                 break;
             } break;
         case 4:
-            viewmatrix(size1, matrixfirst, "Первая");
-            viewmatrix(size2, matrixsecond, "Вторая");
-            viewmatrix(size3, matrixthird, "Третья");
+            viewmatrix(size1, matrixfirst, "A");
+            viewmatrix(size2, matrixsecond, "B");
+            viewmatrix(size3, matrixthird, "C");
             system("pause");
             system("cls");
             break;
