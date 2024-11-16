@@ -1,0 +1,3 @@
+C:/Users/DoctorWho/CLionProjects/WorkCurs/cmake-build-debug/CMakeFiles/WorkCurs.dir
+C:/Users/DoctorWho/CLionProjects/WorkCurs/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/DoctorWho/CLionProjects/WorkCurs/cmake-build-debug/CMakeFiles/rebuild_cache.dir
