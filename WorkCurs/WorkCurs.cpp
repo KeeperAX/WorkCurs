@@ -155,8 +155,7 @@ int main() {
                 case 1: editmatrix(size1, matrixfirst, "A"); system("cls"); break;
                 case 2: editmatrix(size2, matrixsecond, "B"); system("cls"); break;
                 case 3: editmatrix(size3, matrixthird, "C"); system("cls"); break;
-                default: cout << "Ошибка: неверный выбор" << endl;
-                break;
+                default: cout << "Ошибка: неверный выбор" << endl; break;
             } break;
         case 4:
             viewmatrix(size1, matrixfirst, "A");
