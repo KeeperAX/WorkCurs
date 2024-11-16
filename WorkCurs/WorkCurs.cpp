@@ -1,59 +1,78 @@
 ﻿#include <iostream>
 #include <string>
 #include <fstream>
+#include <windows.h>
 
 using namespace std;
 
-void viewmatrix(int size, int** matrix, string num){
+void viewmatrix(int size, int** matrix, string num) {
     cout << "\t" << num << " матрица" << endl;
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             cout << matrix[i][j] << " ";
         }
+        cout << endl; // Добавлено для корректного отображения
     }
-    cout << endl;
 }
 
-int editmatrix(int size, int** matrix, string num) {
-    cout << "Введите страку и столбец элемента" << endl;
-    int row, col; cin >> row >> col;
+void editmatrix(int size, int** matrix, string num) {
+    cout << "Введите строку и столбец элемента" << endl;
+    int row, col;
+    cin >> row >> col;
     if (row >= size || col >= size || row < 0 || col < 0) {
-        cout << "erorr" << endl;
+        cout << "Ошибка: неверные индексы" << endl;
+        return; // Выход из функции
     }
-    else {
-        cout << "Введите новый элемент: ";
-        cin >> matrix[row][col];
-    }
+    cout << "Введите новый элемент: ";
+    cin >> matrix[row][col];
 }
+
+short point = 0;
 
 int** matrixfill(int& size, string num) {
-    short textsize = 0;
-    char* textmatrix = new char[textsize];
-    ifstream nums("matrix.txt");
-    if (!nums.is_open()) {
-        cout << "error";
+    ifstream textmatrix("matrix.txt");
+    if (!textmatrix.is_open()) {
+        cout << "Ошибка открытия файла" << endl;
         return nullptr;
     }
 
-    while (textsize < 1000 && nums >> textmatrix[textsize]) {
-        textsize++;
+    int sizematrix = 0;
+    short temp;
+    while (textmatrix >> temp) {
+        sizematrix++;
+    }
+    textmatrix.clear(); // Сброс состояния потока
+    textmatrix.seekg(0); // Перемещение в начало файла
+
+    while (true) {
+        cout << "Выберите размер матрицы: ";
+        cin >> size;
+        if (size * size + point > sizematrix) {
+            cout << "Невозможный размер матрицы. Попробуйте снова: ";
+        } else {
+            break;
+        }
     }
 
-    cout << "Введите размерность " << num << "матрицы" << endl;
-    cin >> size;
-
-    int** matrix = new int*[size];
+    int** matrix = new int* [size];
     for (int i = 0; i < size; i++) {
         matrix[i] = new int[size];
     }
 
-    for (int i = 0; i < size * size && i < textsize; i++) {
-        matrix[i / size][i % size] = stoi(&textmatrix[i]);
+    // Пропускаем уже прочитанные элементы
+    for (short a = 0; a < point; a++) {
+        textmatrix >> temp;
     }
 
+    for (short i = 0; i < size; i++) {
+        for (short j = 0; j < size; j++) {
+            textmatrix >> matrix[i][j];
+        }
+    }
+    textmatrix.close();
+    point += (size * size);
     return matrix;
 }
-
 
 int** matrixcons(int& size, string num) {
     cout << "Задайте размерность " << num << " матрицы: ";
@@ -77,19 +96,22 @@ int** matrixcons(int& size, string num) {
 }
 
 void clear_memory(int** matrix, int size) {
-    for (int i = 0; i < size; i++) {
-        delete[] matrix[i];
+    if (matrix != nullptr) {
+        for (int i = 0; i < size; i++) {
+            delete[] matrix[i];
+        }
+        delete[] matrix;
     }
-    delete[] matrix;
 }
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    system("chcp 65001");
+    //system("chcp 65001");
+
     int** matrixfirst = nullptr;
     int** matrixsecond = nullptr;
-    int** matrixthrid = nullptr;
-    int size1, size2, size3;
+    int** matrixthird = nullptr;
+    int size1 = 0, size2 = 0, size3 = 0;
 
     while (true) {
         cout << "\tВыберите действие." << endl;
@@ -98,44 +120,49 @@ int main() {
         cout << "[3] Редактировать матрицу." << endl;
         cout << "[4] Вывод матрицы." << endl;
         cout << "[5] Выход из программы." << endl;
-        short choice; cin >> choice;
+        short choice;
+        cin >> choice;
         switch (choice) {
         case 1:
             system("cls");
+            clear_memory(matrixfirst, size1);
+            clear_memory(matrixsecond, size2);
+            clear_memory(matrixthird, size3);
             matrixfirst = matrixcons(size1, "первой"); system("cls");
             matrixsecond = matrixcons(size2, "второй"); system("cls");
-            matrixthrid = matrixcons(size3, "третьей"); system("cls");
+            matrixthird = matrixcons(size3, "третьей"); system("cls");
             break;
-        case 2: 
-            matrixfirst = matrixfill(size1,"первой"); system("cls");
-            matrixsecond = matrixfill(size1, "второй"); system("cls");
-            matrixthrid = matrixfill(size3, "третьей"); system("cls");
+        case 2:
+            clear_memory(matrixfirst, size1);
+            clear_memory(matrixsecond, size2);
+            clear_memory(matrixthird, size3);
+            matrixfirst = matrixfill(size1, "первой"); system("cls");
+            matrixsecond = matrixfill(size2, "второй"); system("cls");
+            matrixthird = matrixfill(size3, "третьей"); system("cls");
             break;
         case 3:
-            cout << "Какую матрицу Вы хотите отредактировать?" << endl;\
-            short count = 0; cin >> count;
+            cout << "Какую матрицу Вы хотите отредактировать?" << endl;
+            short count; cin >> count;
             switch (count) {
                 case 1: editmatrix(size1, matrixfirst, "Первая"); system("cls"); break;
                 case 2: editmatrix(size2, matrixsecond, "Вторая"); system("cls"); break;
-                case 3: editmatrix(size3, matrixthrid, "Третья"); system("cls"); break;
-                default: cout << "error"; break;
-            }
-            break;
+                case 3: editmatrix(size3, matrixthird, "Третья"); system("cls"); break;
+                default: cout << "Ошибка: неверный выбор" << endl;
+                break;
+            } break;
         case 4:
             viewmatrix(size1, matrixfirst, "Первая");
             viewmatrix(size2, matrixsecond, "Вторая");
-            viewmatrix(size3, matrixthrid, "Третья");
+            viewmatrix(size3, matrixthird, "Третья");
             system("pause");
             system("cls");
             break;
         case 5:
             clear_memory(matrixfirst, size1);
             clear_memory(matrixsecond, size2);
-            clear_memory(matrixthrid, size3);
+            clear_memory(matrixthird, size3);
             return 0;
-        default:
-            cout << "error\n";
-            break;
+        default: cout << "Ошибка: неверный выбор" << endl; break;
         }
     }
 }
