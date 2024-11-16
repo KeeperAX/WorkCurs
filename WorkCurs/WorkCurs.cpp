@@ -107,7 +107,6 @@ void clear_memory(int** matrix, int size) {
 int main() {
     setlocale(LC_ALL, "Russian");
     //system("chcp 65001");
-
     int** matrixfirst = nullptr;
     int** matrixsecond = nullptr;
     int** matrixthird = nullptr;
