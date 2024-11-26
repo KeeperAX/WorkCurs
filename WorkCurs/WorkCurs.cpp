@@ -15,6 +15,153 @@ void viewmatrix(int size, int** matrix, string num) {
     }
 }
 
+bool multipmatrix(int** matrixA, int** matrixB, int** matrixC, int size1, int size2, int size3) {
+    if (size1 != size2 != size3)
+    {
+        cout << "Матрицы не могут быть перемножены." << endl;
+        return false;
+    }
+    
+    int** matrixN = new int* [size1];
+    for (int i = 0; i < size1; i++) {
+        matrixN[i] = new int[size1];
+    }
+
+
+    for (int i = 0; i < size1; ++i) {
+        for (int j = 0; j < size1; ++j) {
+            for (int k = 0; k < size1; ++k) {
+                matrixN[i][j] += matrixA[i][k] * matrixB[k][j];
+            }
+        }
+    }
+    short ans = 0;
+    for (short i = 0; i < size1; i++)
+    {
+        for (short j = 0; j < size1; j++)
+        {
+            if (matrixC[i][j] == matrixN[i][j])
+            {
+                ans++;
+            }
+        }
+    }
+    for (int i = 0; i < size1; i++) {
+        delete[] matrixN[i];
+    }
+    delete[] matrixN;
+
+    if (ans == size1 * size1)
+    {
+        return true;
+    }
+
+   
+}
+
+void sravnenie(int** matrixA, int** matrixB, int** matrixC, int size1, int size2, int size3) {
+    short size;
+    unsigned short arrsize = 0;
+    int* arr = new int[arrsize];
+
+    if (size1 <= size2 && size1 <= size3) {
+        size = size1;
+    }
+    else if (size2 <= size1 && size2 <= size3) {
+        size = size2; 
+    }
+    else {
+        size = size3; 
+    }
+
+
+    for (short i = 0; i < size; i++)
+    {
+        for (short j = 0; j < size; i++)
+        {
+            if (matrixC[i][j] == (matrixA[i][j] + matrixB[i][j]))
+            {
+                arr[arrsize] = matrixC[i][j];
+                arrsize++;
+            }
+        }
+    }
+
+    cout << "Элементы матрицы С: ";
+    for (short i = 0; i < arrsize; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+}
+
+void sortmatrix(int** matrixA, int** matrixB, int** matrixC, int size1, int size2, int size3) {
+    unsigned short arrAsize = 0, arrBsize = 0;
+    int* arrA = new int[arrAsize];
+    int* arrB = new int[size2 * size2];
+   
+    
+    for (short i = 0; i < size1 * size1; i++)
+    {
+        for (short j = 0; j < size3 * size3; j++)
+        {
+
+            if (matrixA[i] == matrixC[j])
+            {
+                arrA[arrAsize] = *matrixA[i];;
+                arrAsize++;
+            }
+        }
+    }
+
+    for (short i = 0; i < size2 * size2; i++)
+    {
+        for (short j = 0; j < size3 * size3; j++)
+        {
+
+            if (matrixB[i] == matrixC[j])
+            {
+                arrB[arrAsize] = *matrixB[i];;
+                arrBsize++;
+            }
+        }
+    }
+
+
+    for (short i = 0; i < arrAsize - 1; i++)
+    {
+        for (short j = 0; j < arrAsize - i - 1; j++)
+        {
+            if (arrA[j] > arrA[j+1])
+            {
+                swap(arrA[j], arrA[j + 1]);
+            }
+        }
+    }
+    for (short i = 0; i < arrBsize - 1; i++)
+    {
+        for (short j = 0; j < arrBsize - i - 1; j++)
+        {
+            if (arrB[j] > arrB[j + 1])
+            {
+                swap(arrB[j], arrB[j + 1]);
+            }
+        }
+    }
+    cout << "Элементы матрицы A в порядке возрастания: ";
+    for (short i = 0; i < arrAsize; i++)
+    {
+        cout << arrA[i] << " ";
+    }
+    cout << "\nЭлементы матрицы B в порядке возрастания: ";
+    for (short i = 0; i < arrBsize; i++)
+    {
+        cout << arrB[i] << " ";
+    }
+    cout << endl;
+}
+
 void editmatrix(int size, int** matrix, string num) {
     cout << "Введите строку и столбец элемента:" << endl;
     int row, col;
@@ -24,8 +171,8 @@ void editmatrix(int size, int** matrix, string num) {
     {
         if (row >= size || col >= size || row < 0 || col < 0) {
             cout << "Ошибка: неверные индексы." << endl;
-            cout << "Попробуйте снова." << endl; // Добавлено для ясности
-            cin >> row >> col; // Добавлено для повторного ввода
+            cout << "Попробуйте снова." << endl; 
+            cin >> row >> col; 
             row--; col--;
         }
         else
@@ -42,7 +189,7 @@ short point = 0;
 int** matrixfill(int& size, string num) {
     ifstream textmatrix("matrix.txt");
     if (!textmatrix.is_open()) {
-        cout << "Ошибка открытия файла." << endl; // Добавлена точка
+        cout << "Ошибка открытия файла." << endl; 
         return nullptr;
     }
 
@@ -51,8 +198,8 @@ int** matrixfill(int& size, string num) {
     while (textmatrix >> temp) {
         sizematrix++;
     }
-    textmatrix.clear(); // Сброс состояния потока
-    textmatrix.seekg(0); // Перемещение в начало файла
+    textmatrix.clear();
+    textmatrix.seekg(0); 
 
     while (true) {
         cout << "Выберите размер матрицы: ";
@@ -94,7 +241,7 @@ int** matrixcons(int& size, string num) {
     }
 
     system("cls");
-    cout << "Заполните матрицу:" << endl; // Добавлена двоеточие
+    cout << "Заполните матрицу:" << endl; 
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             cin >> matrix[i][j];
@@ -128,7 +275,10 @@ int main() {
         cout << "[2] Файловый ввод данных." << endl;
         cout << "[3] Редактировать матрицу." << endl;
         cout << "[4] Вывод матрицы." << endl;
-        cout << "[5] Выход из программы." << endl;
+        cout << "[5] Пункт 11: Вывести элементы матрицы A и B, которые встречаются в матрицы C, в порядке возрастания." << endl;
+        cout << "[6] Пункт 14: Вывсети на экран элементы матрицы С, которые равны сумме соответствующих элементов матрицы А и B" << endl;
+        cout << "[7] Пункт 16: Определить является ли матрица С результатом перемножения матрицы A и B" << endl;
+        cout << "[8] Выход из программы." << endl;
         short choice;
         cin >> choice;
         switch (choice)
@@ -159,7 +309,7 @@ int main() {
                 case 1: editmatrix(size1, matrixfirst, "A"); system("cls"); break;
                 case 2: editmatrix(size2, matrixsecond, "B"); system("cls"); break;
                 case 3: editmatrix(size3, matrixthird, "C"); system("cls"); break;
-                default: cout << "Ошибка: неверный выбор." << endl; break; // Добавлена точка
+                default: cout << "Ошибка: неверный выбор." << endl; break; 
                 }
                 break;
             case 4:
@@ -169,12 +319,25 @@ int main() {
                 system("pause");
                 system("cls");
                 break;
-            case 5:
+            case 5: sortmatrix(matrixfirst, matrixsecond, matrixthird, size1, size2, size3); system("pause"); system("cls"); break;
+            case 6: sravnenie(matrixfirst, matrixsecond, matrixthird, size1, size2, size3); system("pause"); system("cls"); break;
+            case 7: 
+                if (multipmatrix(matrixfirst, matrixsecond, matrixthird, size1, size2, size3) == true)
+                {
+                    cout << "Матрица С является результатом перемножения матрицы A и B" << endl;
+                }
+                else {
+                    cout << "Матрица С  НЕ является результатом перемножения матрицы A и B" << endl;
+                }
+                system("pause");
+                system("cls");
+                break;
+            case 8:
                 clear_memory(matrixfirst, size1);
                 clear_memory(matrixsecond, size2);
                 clear_memory(matrixthird, size3);
                 return 0;
-            default: cout << "Ошибка: неверный выбор." << endl; break; // Добавлена точка
+            default: cout << "Ошибка: неверный выбор." << endl; break;
             }
     }
 }
