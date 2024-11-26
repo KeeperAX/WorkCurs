@@ -99,17 +99,17 @@ void sortmatrix(int** matrixA, int** matrixB, int** matrixC, int size1, int size
     int* arrA = new int[size1 * size1];
     int* arrB = new int[size2 * size2];
 
-    for (short i = 0; i < size1; i++) {
-        for (short j = 0; j < size1; j++) {
-            if (matrixA[i][j] == matrixC[i][j]) {
+    for (short i = 0; i < size1*size1; i++) {
+        for (short j = 0; j < size1*size1; j++) {
+            if (matrixA[i] == matrixC[j]) {
                 arrA[arrAsize++] = matrixA[i][j];
             }
         }
     }
 
-    for (short i = 0; i < size2; i++) {
-        for (short j = 0; j < size2; j++) {
-            if (matrixB[i][j] == matrixC[i][j]) {
+    for (short i = 0; i < size2 * size2; i++) {
+        for (short j = 0; j < size2*size2; j++) {
+            if (matrixB[i] == matrixC[j]) {
                 arrB[arrBsize++] = matrixB[i][j];
             }
         }
