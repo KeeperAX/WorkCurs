@@ -99,17 +99,17 @@ void sortmatrix(int** matrixA, int** matrixB, int** matrixC, int size1, int size
     int* arrA = new int[size1 * size1];
     int* arrB = new int[size2 * size2];
 
-    for (short i = 0; i < size1*size1; i++) {
-        for (short j = 0; j < size1*size1; j++) {
-            if (matrixA[i] == matrixC[j]) {
+    for (short i = 0; i < size1; i++) {
+        for (short j = 0; j < size1; j++) {
+            if (matrixA[i][j] == matrixC[i][j]) {
                 arrA[arrAsize++] = matrixA[i][j];
             }
         }
     }
 
-    for (short i = 0; i < size2 * size2; i++) {
-        for (short j = 0; j < size2*size2; j++) {
-            if (matrixB[i] == matrixC[j]) {
+    for (short i = 0; i < size2; i++) {
+        for (short j = 0; j < size2; j++) {
+            if (matrixB[i][j] == matrixC[i][j]) {
                 arrB[arrBsize++] = matrixB[i][j];
             }
         }
@@ -131,7 +131,7 @@ void sortmatrix(int** matrixA, int** matrixB, int** matrixC, int size1, int size
     }
 
     if (arrAsize == 0) {
-        cout << "Элементов нет" << endl;
+        cout << "Элементов матрицы A нет" << endl;
     }
     else {
         cout << "Элементы матрицы A в порядке возрастания: ";
@@ -141,7 +141,7 @@ void sortmatrix(int** matrixA, int** matrixB, int** matrixC, int size1, int size
         cout << endl;
     }
     if (arrBsize == 0) {
-        cout << "Элементов нет" << endl;
+        cout << "Элементов матрицы B нет" << endl;
     }
     else {
         cout << "Элементы матрицы B в порядке возрастания: ";
@@ -153,6 +153,7 @@ void sortmatrix(int** matrixA, int** matrixB, int** matrixC, int size1, int size
     delete[] arrA;
     delete[] arrB;
 }
+
 
 void editmatrix(int size, int** matrix, string num) {
     cout << "Введите строку и столбец элемента:" << endl;
@@ -256,6 +257,7 @@ int main() {
     int** matrixsecond = nullptr;
     int** matrixthird = nullptr;
     int size1 = 0, size2 = 0, size3 = 0;
+
 
     while (true) {
         cout << "Меню:" << endl;
